@@ -1,0 +1,20 @@
+open System
+let vvod =
+    Seq.unfold (fun state ->
+        printf "Введите цифру (или 'net' для выхода): "
+        let input = Console.ReadLine()
+        match input with
+        | "net" -> None
+        | s ->
+            match Int32.TryParse(s) with
+            | true, num when num >= 0 && num <= 9 -> Some(s, ())
+            | _ -> 
+                printfn "Некорректный ввод. Пожалуйста, введите цифру от 1 до 9 или 'net'."
+                Some(null, ())
+    ) () |> Seq.filter (fun x -> x <> null)
+
+let chisl x = Seq.fold (fun x y -> x + y) "" x
+
+let chislo = chisl vvod
+
+printfn "Число: %A" chislo
