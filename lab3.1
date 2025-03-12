@@ -1,0 +1,35 @@
+open System
+let vvod =
+    Seq.unfold (fun state ->
+        printf "Введите цифру (или 'net' для выхода): "
+        let input = Console.ReadLine()
+        match input with
+        | "net" -> None
+        | s ->
+            match Int32.TryParse(s) with
+            | true, num when num >= 1 && num <= 9 -> Some(s, ())
+            | _ -> 
+                printfn "Некорректный ввод. Пожалуйста, введите цифру от 1 до 9 или 'net'."
+                Some(null, ())
+    ) () |> Seq.filter (fun x -> x <> null)
+
+let rim x =
+    match x with
+    | "1" -> "I"
+    | "2" -> "II"
+    | "3" -> "III"
+    | "4" -> "IV"
+    | "5" -> "V"
+    | "6" -> "VI"
+    | "7" -> "VII"
+    | "8" -> "VIII"
+    | "9" -> "IX"
+
+let smena xx =
+    Seq.map (rim) xx
+
+let list1 = vvod 
+let list2 = smena list1
+
+printfn "Начало 
+%A - Римские цифры" (list2)
