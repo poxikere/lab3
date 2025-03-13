@@ -28,8 +28,7 @@ let rim x =
 let smena xx =
     Seq.map (rim) xx
 
-let list1 = vvod 
-let list2 = smena list1
+let seq1 = smena vvod
 
 printfn "Начало 
-%A - Римские цифры" (list2)
+%A - Римские цифры" (seq1)
