@@ -1,0 +1,28 @@
+open System.IO
+open System
+let func (x: string) =
+  let rec funrec (y: string) =
+    seq {
+      yield! Directory.EnumerateFiles(y)
+      for subdir in Directory.EnumerateDirectories(y) do
+        yield! funrec subdir
+    }
+  funrec x
+  |> Seq.map Path.GetExtension
+  |> Seq.filter (fun ext -> not (String.IsNullOrEmpty ext))
+  |> Seq.countBy id
+  |> Seq.sortByDescending snd
+  |> Seq.tryHead
+
+let rec vvod () =
+    printfn "Введите путь к директории:"
+    let input = Console.ReadLine()
+
+    if Directory.Exists(input) then
+        match func input with
+        | Some ext -> printfn $"Самое часто встречающееся расширение: {ext}"
+        | None -> printfn "В указанной директории нет файлов с расширениями."
+    else
+        printfn $"Директории \"{input}\" не существует. Попробуйте снова"
+        vvod ()
+vvod ()
